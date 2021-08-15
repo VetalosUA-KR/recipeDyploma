@@ -1,8 +1,8 @@
 package com.vitalii.recipe
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vitalii.recipe.adapter.RecipeRecyclerAdapter
@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var list: List<Recipe>
     lateinit var mServices: RetrofitServices
     lateinit var recyclerView: RecyclerView
+    lateinit var adapter: RecipeRecyclerAdapter
 
     var TAG = "TATATA"
 
@@ -27,19 +28,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         mServices = Common.retrofitService
-        list = getRecipe()
-        Log.i(TAG, "onCreate:11111 ${list.size}")
+
 
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        adapter = RecipeRecyclerAdapter {
+                position -> onListItemClick(position)
+        }
+        recyclerView.adapter = adapter
 
-
-
-
+        getRecipe()
 
         //"chiken,+flour,+chees"
-
-
         /*mServices.getRecipeByID(1181931).enqueue(object : Callback<Recipe> {
             override fun onResponse(call: Call<Recipe>, response: Response<Recipe>) {
 
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                 call: Call<MutableList<Recipe>>,
                 response: Response<MutableList<Recipe>>
             ) {
-                recyclerView.adapter = RecipeRecyclerAdapter(response.body()!!)
+                adapter.setData(response.body()!!)
                 Log.i(TAG, "onResponse: ${response.body()!!.size}")
             }
 
@@ -78,5 +78,9 @@ class MainActivity : AppCompatActivity() {
 
         Log.i(TAG, "getRecipe: size: ${recipeList.size}")
         return recipeList
+    }
+
+    fun onListItemClick(pos: Int) {
+        Log.i(TAG, "onListItemClick: $pos")
     }
 }
