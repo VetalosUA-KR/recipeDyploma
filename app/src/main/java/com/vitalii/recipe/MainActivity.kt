@@ -1,10 +1,17 @@
 package com.vitalii.recipe
 
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.vitalii.recipe.adapter.RecipeRecyclerAdapter
 import com.vitalii.recipe.pojo.Recipe
 import com.vitalii.recipe.retrofit.Common
@@ -19,6 +26,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var mServices: RetrofitServices
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: RecipeRecyclerAdapter
+    lateinit var fab: FloatingActionButton
+    lateinit var globalRequest: String
 
     var TAG = "TATATA"
 
@@ -28,8 +37,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         mServices = Common.retrofitService
+        globalRequest = "chicken"
 
-
+        fab = findViewById(R.id.fab_search)
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = RecipeRecyclerAdapter {
@@ -37,10 +47,34 @@ class MainActivity : AppCompatActivity() {
         }
         recyclerView.adapter = adapter
 
-        getRecipe()
+        getRecipe(globalRequest)
 
-        //"chiken,+flour,+chees"
-        /*mServices.getRecipeByID(1181931).enqueue(object : Callback<Recipe> {
+
+
+        fab.setOnClickListener(View.OnClickListener {
+            var li : LayoutInflater = LayoutInflater.from(this);
+            var view : View = li.inflate(R.layout.for_search_recipe, null)
+            var userInput: EditText = view.findViewById(R.id.input_text)
+            userInput.setText(globalRequest)
+            val dialogBuilder = MaterialAlertDialogBuilder(this)
+                .setView(view)
+                .setCancelable(false)
+                .setPositiveButton("Сохранить",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        /*seekBar.setProgress(
+                            userInput.getText().toString().toInt()
+                        )*/
+                        Log.i(TAG, "search:  ${userInput.text}")
+                        globalRequest = userInput.text.toString()
+                        getRecipe(globalRequest)
+                    })
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show()
+        })
+
+        /*"chiken,+flour,+chees"
+        mServices.getRecipeByID(1181931).enqueue(object : Callback<Recipe> {
             override fun onResponse(call: Call<Recipe>, response: Response<Recipe>) {
 
             }
@@ -54,33 +88,81 @@ class MainActivity : AppCompatActivity() {
     private fun getQuery(vararg strings: String) : String {
         var query : String = "";
         for(str in strings)
-            query += str+",+"
+            query += str+","
         return query
     }
 
 
-    private fun getRecipe() : List<Recipe> {
-        var recipeList : List<Recipe> = ArrayList<Recipe>()
-        mServices.getRecipeByIngredients(getQuery("chiken", "potato")).enqueue(object :
+    private fun getRecipe(query: String) : List<Recipe> {
+        list  = ArrayList<Recipe>()
+        mServices.getRecipeByIngredients(getQuery(query)).enqueue(object :
             Callback<MutableList<Recipe>> {
             override fun onResponse(
                 call: Call<MutableList<Recipe>>,
                 response: Response<MutableList<Recipe>>
             ) {
+                list = response.body()!!
                 adapter.setData(response.body()!!)
-                Log.i(TAG, "onResponse: ${response.body()!!.size}")
             }
 
             override fun onFailure(call: Call<MutableList<Recipe>>, t: Throwable) {
                 Log.i(TAG, (t.message!!))
             }
         })
-
-        Log.i(TAG, "getRecipe: size: ${recipeList.size}")
-        return recipeList
+        return list
     }
 
     fun onListItemClick(pos: Int) {
-        Log.i(TAG, "onListItemClick: $pos")
+        Log.i(TAG, "recipe_id: $list.get(pos).id")
+        //val bundle : Bundle = bundleOf("recipe_id" to pos)
+
+        val intent = Intent(this, DetailsRecipeActivity::class.java)
+        intent.putExtra("recipe_id", list.get(pos).id)
+        startActivity(intent)
+
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -16,7 +16,7 @@ class RecipeRecyclerAdapter(
 ) : RecyclerView.Adapter<RecipeRecyclerAdapter.MyViewHolder>() {
 
 
-    private var recipeList:List<Recipe> = ArrayList<Recipe>()
+    public var recipeList:List<Recipe> = ArrayList<Recipe>()
 
     fun setData(list:List<Recipe>) {
         recipeList = list
@@ -31,8 +31,6 @@ class RecipeRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val TAG = "asgsdgsdg"
-        Log.i(TAG, "element: $position")
         holder.tvRecipe?.text = recipeList[position].title
         Glide.with(holder.ivRecipe as View)
             .load(recipeList[position].image)
