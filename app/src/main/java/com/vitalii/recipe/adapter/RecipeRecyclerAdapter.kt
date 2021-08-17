@@ -1,6 +1,5 @@
 package com.vitalii.recipe.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.vitalii.recipe.R
-import com.vitalii.recipe.pojo.Recipe
+import com.vitalii.recipe.pojo.recipeList.Recipe
 
 class RecipeRecyclerAdapter(
     private val onItemClicked: (position: Int) -> Unit

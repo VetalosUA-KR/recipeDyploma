@@ -1,4 +1,4 @@
-package com.vitalii.recipe.pojo
+package com.vitalii.recipe.pojo.recipeList
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

@@ -1,4 +1,4 @@
-package com.vitalii.recipe.pojo
+package com.vitalii.recipe.pojo.recipeList
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -50,17 +50,17 @@ class Recipe : Serializable {
     }
 
     override fun toString(): String {
-        return "Recipe(" +"\n"+
-                "id=$id, " +"\n"+
-                "title=$title, " +"\n"+
-                "image=$image, " +"\n"+
-                "imageType=$imageType, " +"\n"+
-                "usedIngredientCount=$usedIngredientCount, " +"\n"+
-                "missedIngredientCount=$missedIngredientCount, " +"\n"+
-                "missedIngredients=$missedIngredients, " +"\n"+
-                "usedIngredients=$usedIngredients, " +"\n"+
-                "unusedIngredients=$unusedIngredients, " +"\n"+
-                "likes=$likes" +"\n"+
+        return "Recipe(" +"\n\n\n"+
+                "id=$id, " +"\n\n\n"+
+                "title=$title, " +"\n\n\n"+
+                "image=$image, " +"\n\n\n"+
+                "imageType=$imageType, " +"\n\n\n"+
+                "usedIngredientCount=$usedIngredientCount, " +"\n\n\n"+
+                "missedIngredientCount=$missedIngredientCount, " +"\n\n\n"+
+                "missedIngredients=$missedIngredients, " +"\n\n\n"+
+                "usedIngredients=$usedIngredients, " +"\n\n\n"+
+                "unusedIngredients=$unusedIngredients, " +"\n\n\n"+
+                "likes=$likes" +"\n\n\n"+
                 ")"
     }
 

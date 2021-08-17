@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.vitalii.recipe.adapter.RecipeRecyclerAdapter
-import com.vitalii.recipe.pojo.Recipe
+import com.vitalii.recipe.pojo.recipeList.Recipe
 import com.vitalii.recipe.retrofit.Common
 import com.vitalii.recipe.retrofit.RetrofitServices
 import retrofit2.Call
@@ -26,7 +26,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var mServices: RetrofitServices
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: RecipeRecyclerAdapter
-    lateinit var fab: FloatingActionButton
+    lateinit var fabSearch: FloatingActionButton
+    lateinit var fabFavorite: FloatingActionButton
     lateinit var globalRequest: String
 
     var TAG = "TATATA"
@@ -39,8 +40,12 @@ class MainActivity : AppCompatActivity() {
         mServices = Common.retrofitService
         globalRequest = "chicken"
 
-        fab = findViewById(R.id.fab_search)
+        fabSearch = findViewById(R.id.fab_search)
+        fabFavorite = findViewById(R.id.fab_favorite)
+
+
         recyclerView = findViewById(R.id.recyclerView)
+
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = RecipeRecyclerAdapter {
                 position -> onListItemClick(position)
@@ -51,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        fab.setOnClickListener(View.OnClickListener {
+        fabSearch.setOnClickListener(View.OnClickListener {
             var li : LayoutInflater = LayoutInflater.from(this);
             var view : View = li.inflate(R.layout.for_search_recipe, null)
             var userInput: EditText = view.findViewById(R.id.input_text)
@@ -72,6 +77,13 @@ class MainActivity : AppCompatActivity() {
                 .create()
                 .show()
         })
+
+        fabFavorite.setOnClickListener(View.OnClickListener {
+            val intent = Intent(this, FavoriteRecipesActivity::class.java)
+            startActivity(intent)
+        })
+
+
 
         /*"chiken,+flour,+chees"
         mServices.getRecipeByID(1181931).enqueue(object : Callback<Recipe> {

@@ -1,6 +1,7 @@
 package com.vitalii.recipe.retrofit
 
-import com.vitalii.recipe.pojo.Recipe
+import com.vitalii.recipe.pojo.recipeDetail.RecipeDetail
+import com.vitalii.recipe.pojo.recipeList.Recipe
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -16,14 +17,14 @@ interface RetrofitServices {
      * @GET("myObjects/{id}")
     fun myObjectById(@Path("id") id: Int?, @Query("a_param") aParam: String?): Call<MyObject>
      */
-    @GET("findByIngredients?apiKey=bf63200886cd4dc595d8d02421308cf7&")
+    @GET("findByIngredients?apiKey=bf63200886cd4dc595d8d02421308cf7&number=100")
     fun getRecipeByIngredients(@Query("ingredients") aParam: String?) : Call<MutableList<Recipe>>
 
 
     //https://api.spoonacular.com/recipes/{id}/information
     //https://api.spoonacular.com/recipes/1181931/information?apiKey=bf63200886cd4dc595d8d02421308cf7&
     @GET("{id}/information?apiKey=bf63200886cd4dc595d8d02421308cf7&")
-    fun getRecipeByID(@Path("id") id: Int) : Call<Recipe>
+    fun getRecipeByID(@Path("id") id: Int) : Call<RecipeDetail>
 }
 
 

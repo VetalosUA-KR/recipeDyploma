@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Recipe">
+        <activity android:name=".FavoriteRecipesActivity"></activity>
         <activity
             android:name=".DetailsRecipeActivity"
             android:label="@string/title_activity_details_recipe"
