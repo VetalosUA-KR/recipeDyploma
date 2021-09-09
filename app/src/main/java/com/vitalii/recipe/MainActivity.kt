@@ -8,11 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.vitalii.recipe.adapter.RecipeRecyclerAdapter
+import com.vitalii.recipe.db.FavoriteRecipe
+import com.vitalii.recipe.db.RecipeViewModel
 import com.vitalii.recipe.pojo.recipeList.Recipe
 import com.vitalii.recipe.retrofit.Common
 import com.vitalii.recipe.retrofit.RetrofitServices
@@ -30,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var fabFavorite: FloatingActionButton
     lateinit var globalRequest: String
 
-    var TAG = "TATATA"
+    var TAG = "MainActivity"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,11 +67,8 @@ class MainActivity : AppCompatActivity() {
             val dialogBuilder = MaterialAlertDialogBuilder(this)
                 .setView(view)
                 .setCancelable(false)
-                .setPositiveButton("Сохранить",
+                .setPositiveButton("Search",
                     DialogInterface.OnClickListener { dialog, id ->
-                        /*seekBar.setProgress(
-                            userInput.getText().toString().toInt()
-                        )*/
                         Log.i(TAG, "search:  ${userInput.text}")
                         globalRequest = userInput.text.toString()
                         getRecipe(globalRequest)
@@ -82,19 +82,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, FavoriteRecipesActivity::class.java)
             startActivity(intent)
         })
-
-
-
-        /*"chiken,+flour,+chees"
-        mServices.getRecipeByID(1181931).enqueue(object : Callback<Recipe> {
-            override fun onResponse(call: Call<Recipe>, response: Response<Recipe>) {
-
-            }
-
-            override fun onFailure(call: Call<Recipe>, t: Throwable) {
-                Log.i(TAG, (t.message!!))
-            }
-        })*/
     }
 
     private fun getQuery(vararg strings: String) : String {
@@ -126,7 +113,6 @@ class MainActivity : AppCompatActivity() {
 
     fun onListItemClick(pos: Int) {
         Log.i(TAG, "recipe_id: $list.get(pos).id")
-        //val bundle : Bundle = bundleOf("recipe_id" to pos)
 
         val intent = Intent(this, DetailsRecipeActivity::class.java)
         intent.putExtra("recipe_id", list.get(pos).id)

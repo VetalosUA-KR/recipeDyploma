@@ -3,6 +3,7 @@ package com.vitalii.recipe.pojo.recipeDetail
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
+
 class AnalyzedInstruction {
     @SerializedName("name")
     @Expose
@@ -11,13 +12,5 @@ class AnalyzedInstruction {
     @SerializedName("steps")
     @Expose
     var steps: List<Step>? = null
-
-    override fun toString(): String {
-        return "\nAnalyzedInstruction(" +
-                "name=$name, " +
-                "steps=$steps" +
-                ")"
-    }
-
 
 }

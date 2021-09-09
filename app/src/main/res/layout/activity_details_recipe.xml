@@ -27,6 +27,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_margin="8dp"
+                android:backgroundTint="@color/white"
                 android:src="@drawable/ic_baseline_favorite_border_24"
                 app:layout_constraintEnd_toEndOf="@id/imageView_recipe"
                 app:layout_constraintBottom_toBottomOf="@id/imageView_recipe"/>

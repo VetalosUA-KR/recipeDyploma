@@ -1,5 +1,6 @@
 package com.vitalii.recipe.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +16,18 @@ class RecipeRecyclerAdapter(
 ) : RecyclerView.Adapter<RecipeRecyclerAdapter.MyViewHolder>() {
 
 
-    public var recipeList:List<Recipe> = ArrayList<Recipe>()
+    var TAG = "recipeRecyclerView"
+    public var recipeList:MutableList<Recipe> = ArrayList<Recipe>()
 
-    fun setData(list:List<Recipe>) {
+    fun setData(list: MutableList<Recipe>) {
+        //Log.i(TAG, "size:  ${list.size}")
         recipeList = list
+        notifyDataSetChanged()
+    }
+
+    fun setData(recipe: Recipe) {
+        Log.i(TAG, "size:  ${recipeList.size}")
+        recipeList.add(recipe)
         notifyDataSetChanged()
     }
 

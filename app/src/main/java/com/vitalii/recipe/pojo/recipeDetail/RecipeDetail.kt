@@ -3,7 +3,13 @@ package com.vitalii.recipe.pojo.recipeDetail
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class RecipeDetail {
+class RecipeDetail{
+
+
+    @SerializedName("isFavorite")
+    @Expose
+    var isFavorite: Boolean? = false
+
     @SerializedName("vegetarian")
     @Expose
     var vegetarian: Boolean? = null
@@ -147,46 +153,6 @@ class RecipeDetail {
     @SerializedName("originalId")
     @Expose
     var originalId: Any? = null
-    override fun toString(): String {
-        return "RecipeDetail(" +"\n\n"+
-                "vegetarian=$vegetarian, " +"\n\n"+
-                "vegan=$vegan, " +"\n\n"+
-                "glutenFree=$glutenFree, " +"\n\n"+
-                "dairyFree=$dairyFree, " +"\n\n"+
-                "veryHealthy=$veryHealthy, " +"\n\n"+
-                "cheap=$cheap, " +"\n\n"+
-                "veryPopular=$veryPopular, " +"\n\n"+
-                "sustainable=$sustainable, " +"\n\n"+
-                "weightWatcherSmartPoints=$weightWatcherSmartPoints, " +"\n\n"+
-                "gaps=$gaps, " +"\n\n"+
-                "lowFodmap=$lowFodmap, " +"\n\n"+
-                "preparationMinutes=$preparationMinutes, " +"\n\n"+
-                "cookingMinutes=$cookingMinutes, " +"\n\n"+
-                "aggregateLikes=$aggregateLikes, " +"\n\n"+
-                "spoonacularScore=$spoonacularScore, " +"\n\n"+
-                "healthScore=$healthScore, " +"\n\n"+
-                "creditsText=$creditsText, " +"\n\n"+
-                "sourceName=$sourceName, " +"\n\n"+
-                "pricePerServing=$pricePerServing, " +"\n\n"+
-                "extendedIngredients=$extendedIngredients, " +"\n\n"+
-                "id=$id, " +"\n\n"+
-                "title=$title, " +"\n\n"+
-                "readyInMinutes=$readyInMinutes, " +"\n\n"+
-                "servings=$servings, " +"\n\n"+
-                "sourceUrl=$sourceUrl, " +"\n\n"+
-                "image=$image, " +"\n\n"+
-                "imageType=$imageType, " +"\n\n"+
-                "summary=$summary, " +"\n\n"+
-                "cuisines=$cuisines, " +"\n\n"+
-                "dishTypes=$dishTypes, " +"\n\n"+
-                "diets=$diets, " +"\n\n"+
-                "occasions=$occasions, " +"\n\n"+
-                "winePairing=$winePairing, " +"\n\n"+
-                "instructions=$instructions, " +"\n\n"+
-                "analyzedInstructions=$analyzedInstructions, " +"\n\n"+
-                "originalId=$originalId" +"\n\n"+
-                ")"
-    }
 
 
 }
