@@ -17,9 +17,13 @@ import com.vitalii.recipe.pojo.recipeDetail.RecipeDetail
 import com.vitalii.recipe.pojo.recipeList.Recipe
 import com.vitalii.recipe.retrofit.Common
 import com.vitalii.recipe.retrofit.RetrofitServices
+import kotlinx.coroutines.CompletableJob
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.Callback
+import retrofit2.Response
 
 class DetailsRecipeActivity : AppCompatActivity() {
 
@@ -35,7 +39,6 @@ class DetailsRecipeActivity : AppCompatActivity() {
     lateinit var recipeStep: TextView
     lateinit var recipeSummary: TextView
     lateinit var favorite: ImageButton
-    var isFav: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,55 +56,40 @@ class DetailsRecipeActivity : AppCompatActivity() {
         var bundle: Bundle? = intent.extras
         recipe_id = bundle!!.getInt("recipe_id") // 1
 
-        Log.i(TAG, "onCreate: $recipe_id")
-
         mServices = Common.retrofitService
-
-
-
 
 
         mServices.getRecipeByIDForDetail(recipe_id).enqueue(object : Callback<RecipeDetail> {
             override fun onResponse(call: Call<RecipeDetail>, response: Response<RecipeDetail>) {
                 fillHeader(response)
                 recipeSummary.text = Html.fromHtml(response.body()?.summary)
-
                 fillSteps(response)
-
-                response.body()?.toString()?.let { Log.i(TAG, it) }
             }
-
             override fun onFailure(call: Call<RecipeDetail>, t: Throwable) {
                 Log.i(TAG, "onFailure: ${t.message}")
             }
         })
 
         favorite.setOnClickListener(View.OnClickListener {
-
             mServices.getRecipeByIDForFavorite(recipe_id).enqueue(object : Callback<Recipe> {
                 override fun onResponse(call: Call<Recipe>, response: Response<Recipe>) {
                     var recipe: Recipe = response.body()!!
-                    if(recipe.id == null) {
-                        Log.i(TAG, "нету в избранном нужно добавить ")
-                    }
-                    else {
-                        Log.i(TAG, "добавлен в избранное нужно удалить ")
-                    }
-                    recipeViewModel.addRecipe(FavoriteRecipe(recipe.id!!))
 
+                    CoroutineScope(Dispatchers.IO).launch {
+                        if(recipeViewModel.isRecipeExist(recipe.id!!)) {
+                            recipeViewModel.deleteRecipe(FavoriteRecipe(recipe.id!!))
+                        }
+                        else {
+                            recipeViewModel.addRecipe(FavoriteRecipe(recipe.id!!))
+                        }
+                    }
                 }
-
                 override fun onFailure(call: Call<Recipe>, t: Throwable) {
-
+                    Log.i(TAG, "onFailure: "+t.message)
                 }
             })
         })
     }
-
-    private fun addOrDelete() {
-
-    }
-
 
     private fun fillHeader(response: Response<RecipeDetail>) {
         Glide.with(recipePic)

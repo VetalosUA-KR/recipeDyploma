@@ -18,7 +18,10 @@ interface RecipeModelDao {
     fun deleteRecipe(model: FavoriteRecipe)
 
     @Query("select * from FavoriteRecipe where recipe_id=:id")
-    fun getRecipeById(id: Int): FavoriteRecipe
+    fun isRecipeExist(id: Int): Boolean
+
+    @Query("select * from FavoriteRecipe where recipe_id=:id")
+    fun getRecipe(id: Int): FavoriteRecipe
 
 
 }

@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         mServices = Common.retrofitService
-        globalRequest = "chicken"
+        globalRequest = ""
 
         fabSearch = findViewById(R.id.fab_search)
         fabFavorite = findViewById(R.id.fab_favorite)
@@ -55,27 +55,13 @@ class MainActivity : AppCompatActivity() {
         }
         recyclerView.adapter = adapter
 
-        getRecipe(globalRequest)
+        //getRecipe(globalRequest)
 
+        showDialogForSearch()
 
 
         fabSearch.setOnClickListener(View.OnClickListener {
-            var li : LayoutInflater = LayoutInflater.from(this);
-            var view : View = li.inflate(R.layout.for_search_recipe, null)
-            var userInput: EditText = view.findViewById(R.id.input_text)
-            userInput.setText(globalRequest)
-            val dialogBuilder = MaterialAlertDialogBuilder(this)
-                .setView(view)
-                .setCancelable(false)
-                .setPositiveButton("Search",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        Log.i(TAG, "search:  ${userInput.text}")
-                        globalRequest = userInput.text.toString()
-                        getRecipe(globalRequest)
-                    })
-                .setNegativeButton("Cancel", null)
-                .create()
-                .show()
+            showDialogForSearch()
         })
 
         fabFavorite.setOnClickListener(View.OnClickListener {
@@ -84,31 +70,37 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun getQuery(vararg strings: String) : String {
-        var query : String = "";
-        for(str in strings)
-            query += str+","
-        return query
+    private fun showDialogForSearch() {
+        var li: LayoutInflater = LayoutInflater.from(this);
+        var view: View = li.inflate(R.layout.for_search_recipe, null)
+        var userInput: EditText = view.findViewById(R.id.input_text)
+        userInput.setText(globalRequest)
+        val dialogBuilder = MaterialAlertDialogBuilder(this)
+            .setView(view)
+            .setCancelable(false)
+            .setPositiveButton("Search",
+                DialogInterface.OnClickListener { dialog, id ->
+                    globalRequest = userInput.text.toString()
+                    getRecipe(globalRequest)
+                })
+            .setNegativeButton("Cancel", null)
+            .create()
+            .show()
     }
 
-
-    private fun getRecipe(query: String) : List<Recipe> {
-        list  = ArrayList<Recipe>()
-        mServices.getRecipeByIngredients(getQuery(query)).enqueue(object :
+    private fun getRecipe(query: String) {
+        mServices.getRecipeByIngredients(query).enqueue(object :
             Callback<MutableList<Recipe>> {
             override fun onResponse(
                 call: Call<MutableList<Recipe>>,
                 response: Response<MutableList<Recipe>>
             ) {
-                list = response.body()!!
                 adapter.setData(response.body()!!)
             }
-
             override fun onFailure(call: Call<MutableList<Recipe>>, t: Throwable) {
                 Log.i(TAG, (t.message!!))
             }
         })
-        return list
     }
 
     fun onListItemClick(pos: Int) {

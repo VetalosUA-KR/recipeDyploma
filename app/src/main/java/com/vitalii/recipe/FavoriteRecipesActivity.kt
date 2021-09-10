@@ -44,12 +44,9 @@ class FavoriteRecipesActivity : AppCompatActivity() {
         recipeViewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
 
         recipeViewModel.readAllData.observe(this, Observer {
-            //adapter.setData(it)
             for (favRec in it) {
-                //Log.i(TAG, "id:   ${favRec.recipe_id}" )
                 getRecipeById(favRec.recipe_id)
             }
-
         })
     }
 
@@ -70,8 +67,6 @@ class FavoriteRecipesActivity : AppCompatActivity() {
     }
 
     private fun onListItemClick(position: Int) {
-        Log.i(TAG, "position:  $position")
-        Log.i(TAG, "id to detail:   "+listRecipe.get(position).id )
         val intent = Intent(this, DetailsRecipeActivity::class.java)
         intent.putExtra("recipe_id", listRecipe.get(position).id)
         startActivity(intent)

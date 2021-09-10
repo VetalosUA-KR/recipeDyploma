@@ -13,7 +13,7 @@ import com.vitalii.recipe.pojo.recipeList.Recipe
 
 class RecipeRecyclerAdapter(
     private val onItemClicked: (position: Int) -> Unit
-) : RecyclerView.Adapter<RecipeRecyclerAdapter.MyViewHolder>() {
+) : RecyclerView.Adapter<RecipeRecyclerAdapter.MyViewHolder>(){
 
 
     var TAG = "recipeRecyclerView"
@@ -51,7 +51,7 @@ class RecipeRecyclerAdapter(
         return recipeList.size;
     }
 
-    class MyViewHolder(itemView: View,private val onItemClicked: (position: Int) -> Unit) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class MyViewHolder(itemView: View, private val onItemClicked: (position: Int) -> Unit) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var ivRecipe: ImageView? = null
         var tvRecipe: TextView? = null
 
